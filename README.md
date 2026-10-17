@@ -27,8 +27,7 @@ The page follows the standard high-converting landing page order, and every sect
 ### Mobile
 
 - The first form step, including its button, fits on the first phone screen.
-- A sticky "Get my plan" bar appears once the hero form is out of view.
-- The proof cards pin and slide sideways as you scroll, with arrows, a progress bar and a counter.
+- The proof cards sit in a native swipe row with arrows, a progress bar and a counter.
 - Services show as 3D cards, and there's a menu for in-page links.
 
 ### Accessibility and performance
@@ -36,15 +35,15 @@ The page follows the standard high-converting landing page order, and every sect
 - All text meets WCAG AA contrast, and form outlines meet 3:1.
 - Reduced motion is respected.
 - Motion uses only transforms and opacity, and scrolling is native (no scroll-jacking library).
-- The page is a single HTML file with no build step. The logo and brand tile are embedded, so they never fail to load.
+- The page is a single HTML file with no build step. The logo, 3D renders, reel covers and sky are embedded as compressed WebP, so they never fail to load. Only the short reel videos load separately.
 
 ## Structure
 
 ```
 lp/index.html        final page (version 2)
 lp/v1/index.html     version 1, kept for A/B testing
-lp/img/3d/           3D service renders and the sky backdrop
-media/previews/      muted reel previews (MP4 + poster JPG)
+lp/img/3d/           3D renders and sky (used by v1; the final page embeds its own copies)
+media/previews/      muted reel previews (MP4, plus poster JPGs for v1)
 vercel.json          routes / and /lp to the page
 ```
 
