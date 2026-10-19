@@ -80,6 +80,10 @@ With no key, a used-up free quota or any Groq error, the chat switches to tap-to
 
 For local testing, put the key in `~/verdexo-landing-page-review/.gemini-key` (outside the repo); the local dev server reads it.
 
+## Google Ads tracking
+
+The Google tag for Google Ads account `AW-18077017999` is in the page `<head>` (loaded async, so it doesn't slow the page). The page sends `generate_lead` when a form or chat lead is sent, and `contact` (method `phone` or `whatsapp`) when someone taps call or WhatsApp. Each one also counts as a **Google Ads conversion** once its label is filled into `ADS_LABELS` in `lp/index.html`. Get each label from Google Ads > Goals > Conversions > the conversion action > Tag setup: it's the part after the slash in `send_to: 'AW-18077017999/<label>'`. Every lead also stores the `gclid`, which the `/leads/` CSV export includes for offline conversion uploads. The privacy policy's "Cookies and tracking" section describes the tag.
+
 ## Leads
 
 Every lead (both forms and the chat) goes two ways at once, so one failing never loses it:
