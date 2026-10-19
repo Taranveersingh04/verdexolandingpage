@@ -1,0 +1,5 @@
+# Deployed as public_html/lp-assets/.htaccess.
+# The config files here hold keys and passwords: PHP reads them from disk, nobody may open them over the web.
+<FilesMatch "config\.php$">
+  Require all denied
+</FilesMatch>

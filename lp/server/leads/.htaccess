@@ -1,0 +1,5 @@
+# The leads page is index.php (the site's default is index.html), and lib.php is only ever included, never opened.
+DirectoryIndex index.php
+<Files "lib.php">
+  Require all denied
+</Files>

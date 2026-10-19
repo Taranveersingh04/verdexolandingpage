@@ -89,11 +89,18 @@ Every lead (both forms and the chat) goes two ways at once, so one failing never
 
 The private page at **verdexoventures.com/leads/** (`lp/server/leads/`) lists them, with call and WhatsApp buttons, a status (New, Contacted, Interested, Client, Not interested), notes, a follow-up date, a "Follow up today" list and an Excel/CSV export (including the Google Ads click ID).
 
-Setup on Hostinger:
+### How it's deployed on Hostinger (live since 19 Oct 2026)
 
-1. In hPanel, go to Databases > Management and create a MySQL database. Note its name, user and password.
-2. Copy `lp/server/leads-config.example.php` to `leads-config.php` one folder **above** `public_html`, fill in the database details and choose a long `admin_password`.
-3. Upload `lead.php` to `public_html/` and the `leads/` folder to `public_html/leads/`.
+| Repo file | On the server (`public_html/`) |
+|---|---|
+| `lp/index.html` | `landing-page.html` (served at `/landing-page`), with `/lp/img/proof/` → `/lp-assets/proof/` and `/media/previews/` → `/lp-assets/media/` |
+| `lp/privacy.html` | `privacy.html` (served at `/privacy`) |
+| `lp/server/lp-chat.php`, `lp/server/lead.php` | `lp-chat.php`, `lead.php` |
+| `lp/server/leads/` (incl. `.htaccess`) | `leads/` (the `.htaccess` makes `index.php` the page and blocks `lib.php`) |
+| `lp/server/lp-assets.htaccess` | `lp-assets/.htaccess` (blocks web access to the config files) |
+| not in git | `lp-assets/chat-config.php` (Groq key) and `lp-assets/leads-config.php` (database `u622956781_leads` + bcrypt hash of the `/leads/` password) |
+
+The MySQL database is `u622956781_leads` (user `u622956781_leads`, host `localhost`). The leads table creates itself with the first lead. To update the page later, re-upload `landing-page.html` with the path rewrite above.
 
 The leads table is created automatically with the first lead. Spam protection: a hidden field that only bots fill in, a limit of 8 leads per visitor per 10 minutes, and only the landing page itself may send leads. The login page pauses for 15 minutes after 10 wrong passwords. Enquiries that never became clients are deleted after 18 months without activity, as the privacy policy promises.
 
