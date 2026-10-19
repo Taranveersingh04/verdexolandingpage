@@ -41,6 +41,8 @@ The page follows the standard high-converting landing page order, and every sect
 
 ```
 lp/index.html        final page (version 2)
+lp/privacy.html      privacy policy, served at /privacy (linked from every form, the chat and the footer)
+lp/server/           PHP for Hostinger: lp-chat.php (AI chat), lead.php (saves leads), leads/ (private leads page)
 lp/v1/index.html     version 1, kept for A/B testing
 lp/img/3d/           3D renders and sky (used by v1; the final page embeds its own copies)
 media/previews/      muted reel previews (MP4, plus poster JPGs for v1)
@@ -69,11 +71,29 @@ vercel deploy --prod
 
 ## AI chat
 
-The chat button (bottom right) talks to `lp/server/lp-chat.php`, which is uploaded to the site root as `/lp-chat.php`. It forwards the conversation to Google Gemini's free tier and keeps the API key on the server, never in the page.
+The chat button (bottom right) talks to `lp/server/lp-chat.php`, which is uploaded to the site root as `/lp-chat.php`. It forwards the conversation to Groq's free tier, running the open-source `openai/gpt-oss-120b` model, and keeps the API key on the server, never in the page.
 
-1. Create a free key at https://aistudio.google.com/apikey.
+1. Create a free key at https://console.groq.com/keys (no card needed), and turn on Zero Data Retention under Settings > Data Controls.
 2. Copy `lp/server/chat-config.example.php` to `lp-chat-config.php` one folder **above** `public_html` (or to `public_html/lp-assets/chat-config.php`) and paste the key into it.
 
-With no key, a used-up free quota or any Google error, the chat switches to tap-to-answer FAQ buttons and an inline name/number card, so leads are still captured. Chat leads go to the same inbox as the forms, with the whole conversation attached. The server limits each visitor to 40 messages per 10 minutes. Note: on Gemini's free tier, Google may use conversations to improve its products.
+With no key, a used-up free quota or any Groq error, the chat switches to tap-to-answer FAQ buttons and an inline name/number card, so leads are still captured. Chat leads go to the same inbox as the forms, with the whole conversation attached. The server limits each visitor to 40 messages per 10 minutes. Groq's free tier limits each model to about 7 messages a minute and 170 a day, so when `gpt-oss-120b` is at its limit the chat answers with `gpt-oss-20b`, which has its own allowance; past both, it falls back to the buttons. Groq's paid Developer tier raises the limits. Groq does not train on API data.
 
 For local testing, put the key in `~/verdexo-landing-page-review/.gemini-key` (outside the repo); the local dev server reads it.
+
+## Leads
+
+Every lead (both forms and the chat) goes two ways at once, so one failing never loses it:
+
+- **Email**, through FormSubmit, to the inbox set in `LEAD_EMAIL` in `lp/index.html`, as before.
+- **The site's own database**, through `lp/server/lead.php`, uploaded to the site root as `/lead.php`.
+
+The private page at **verdexoventures.com/leads/** (`lp/server/leads/`) lists them, with call and WhatsApp buttons, a status (New, Contacted, Interested, Client, Not interested), notes, a follow-up date, a "Follow up today" list and an Excel/CSV export (including the Google Ads click ID).
+
+Setup on Hostinger:
+
+1. In hPanel, go to Databases > Management and create a MySQL database. Note its name, user and password.
+2. Copy `lp/server/leads-config.example.php` to `leads-config.php` one folder **above** `public_html`, fill in the database details and choose a long `admin_password`.
+3. Upload `lead.php` to `public_html/` and the `leads/` folder to `public_html/leads/`.
+
+The leads table is created automatically with the first lead. Spam protection: a hidden field that only bots fill in, a limit of 8 leads per visitor per 10 minutes, and only the landing page itself may send leads. The login page pauses for 15 minutes after 10 wrong passwords. Enquiries that never became clients are deleted after 18 months without activity, as the privacy policy promises.
+

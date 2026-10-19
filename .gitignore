@@ -4,5 +4,7 @@ node_modules
 
 # never commit API keys
 .gemini-key
+.groq-key
 lp-chat-config.php
 chat-config.php
+leads-config.php
