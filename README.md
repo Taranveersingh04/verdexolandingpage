@@ -59,7 +59,7 @@ Then open http://localhost:3000/lp/index.html.
 
 ## Connect the form
 
-Both forms email each lead to `demandgenleads@verdexoventures.com` through [FormSubmit](https://formsubmit.co), set by `LEAD_EMAIL` near the top of the script in `lp/index.html`. The very first submission makes FormSubmit send an activation email to that inbox: click **Activate Form** once, or leads are not delivered. Each email has a clear subject, the lead's details, the time in IST and any `gclid`/`utm_*` values from the ad click. If sending fails, the visitor sees an error with the phone and WhatsApp links instead of a fake success message. A `lead_submit` event (or `lead_send_failed`) is also pushed to `dataLayer` for Google Ads and Meta conversion tracking.
+Both forms email each lead to `demandgenleads@verdexoventures.com` through [FormSubmit](https://formsubmit.co) (activated on 19 Oct 2026). The page uses FormSubmit's code for that inbox, `LEAD_FORM_ID` near the top of the script in `lp/index.html`, instead of the address itself, so the address never appears in the page for spam bots to collect. To send leads to a different inbox, put the new address in `FORM_ENDPOINT` once, submit a test lead, click **Activate Form** in the email FormSubmit sends, then replace the address with the code from that email. Each email has a clear subject, the lead's details, the time in IST and any `gclid`/`utm_*` values from the ad click. If sending fails, the visitor sees an error with the phone and WhatsApp links instead of a fake success message. A `lead_submit` event (or `lead_send_failed`) is also pushed to `dataLayer` for Google Ads and Meta conversion tracking.
 
 ## Deploy
 
@@ -84,7 +84,7 @@ For local testing, put the key in `~/verdexo-landing-page-review/.gemini-key` (o
 
 Every lead (both forms and the chat) goes two ways at once, so one failing never loses it:
 
-- **Email**, through FormSubmit, to the inbox set in `LEAD_EMAIL` in `lp/index.html`, as before.
+- **Email**, through FormSubmit, to the inbox behind `LEAD_FORM_ID` in `lp/index.html`, as before.
 - **The site's own database**, through `lp/server/lead.php`, uploaded to the site root as `/lead.php`.
 
 The private page at **verdexoventures.com/leads/** (`lp/server/leads/`) lists them, with call and WhatsApp buttons, a status (New, Contacted, Interested, Client, Not interested), notes, a follow-up date, a "Follow up today" list and an Excel/CSV export (including the Google Ads click ID).

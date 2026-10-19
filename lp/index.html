@@ -1064,10 +1064,11 @@ footer > span { order: 4; }
 
 <script>
 (() => {
-  // Leads are emailed to this inbox through FormSubmit (formsubmit.co). The first ever submission sends an
-  // activation email to the inbox; click "Activate Form" in it once, or no leads are delivered.
-  const LEAD_EMAIL = "demandgenleads@verdexoventures.com";
-  const FORM_ENDPOINT = `https://formsubmit.co/ajax/${LEAD_EMAIL}`;
+  // Leads are emailed through FormSubmit (formsubmit.co). LEAD_FORM_ID is FormSubmit's code for the lead inbox,
+  // used instead of the address itself so the address never appears in the page for spam bots to collect.
+  // The inbox is listed in the README; a new inbox needs a new code from FormSubmit's activation email.
+  const LEAD_FORM_ID = "a566b2b102e559919d6cba261587a8e0";
+  const FORM_ENDPOINT = `https://formsubmit.co/ajax/${LEAD_FORM_ID}`;
   // Every lead is also saved to the site's own database (lead.php), for the private /leads/ page.
   const LEAD_STORE = "/lead.php";
   // Call + WhatsApp number: country code + number, digits only
