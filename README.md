@@ -35,7 +35,7 @@ The page follows the standard high-converting landing page order, and every sect
 - All text meets WCAG AA contrast, and form outlines meet 3:1.
 - Reduced motion is respected.
 - Motion uses only transforms and opacity, and scrolling is native (no scroll-jacking library).
-- The page is a single HTML file with no build step. The logo, 3D renders, reel covers and sky are embedded as compressed WebP, so they never fail to load. Only the short reel videos load separately.
+- The page is a single HTML file with no build step. The logo, 3D renders and sky are embedded as compressed WebP. The reel thumbnails and videos load separately, only when the visitor scrolls near them, and the fonts load in the background, so the first screen shows quickly.
 
 ## Structure
 
@@ -93,7 +93,8 @@ The private page at **verdexoventures.com/leads/** (`lp/server/leads/`) lists th
 
 | Repo file | On the server (`public_html/`) |
 |---|---|
-| `lp/index.html` | `landing-page.html` (served at `/landing-page`), with `/lp/img/proof/` → `/lp-assets/proof/` and `/media/previews/` → `/lp-assets/media/` |
+| `lp/index.html` | `landing-page.html` (served at `/landing-page`), with `/lp/img/proof/` → `/lp-assets/proof/`, `/lp/img/posters/` → `/lp-assets/posters/` and `/media/previews/` → `/lp-assets/media/` |
+| `lp/img/posters/*.webp` (reel thumbnails, fetched only near the reels) | `lp-assets/posters/` |
 | `lp/privacy.html` | `privacy.html` (served at `/privacy`) |
 | `lp/server/lp-chat.php`, `lp/server/lead.php` | `lp-chat.php`, `lead.php` |
 | `lp/server/leads/` (incl. `.htaccess`) | `leads/` (the `.htaccess` makes `index.php` the page and blocks `lib.php`) |

@@ -25,9 +25,10 @@ function cut($s, $n) { return function_exists('mb_substr') ? mb_substr($s, 0, $n
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') out(['error' => 'method'], 405);
 
-// only answer the landing page itself (and local testing)
+// only answer the landing page itself (and local testing). Browsers always say which site is asking, so a request
+// that names no site comes from a script trying to use the chat as a free AI service: refuse it.
 $from = $_SERVER['HTTP_ORIGIN'] ?? ($_SERVER['HTTP_REFERER'] ?? '');
-if ($from !== '' && !preg_match('#^(https?://(www\.)?verdexoventures\.com|http://(localhost|127\.0\.0\.1)(:\d+)?)(/|$)#', $from)) {
+if (!preg_match('#^(https?://(www\.)?verdexoventures\.com|http://(localhost|127\.0\.0\.1)(:\d+)?)(/|$)#', $from)) {
     out(['error' => 'origin'], 403);
 }
 
