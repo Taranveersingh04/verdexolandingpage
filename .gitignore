@@ -1,3 +1,8 @@
 .DS_Store
 .vercel
 node_modules
+
+# never commit API keys
+.gemini-key
+lp-chat-config.php
+chat-config.php

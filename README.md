@@ -57,7 +57,7 @@ Then open http://localhost:3000/lp/index.html.
 
 ## Connect the form
 
-Submissions are currently kept in the browser (`window.verdexoLeads`). To receive leads, set `FORM_ENDPOINT` near the top of the script in `lp/index.html` to a Google Apps Script web app, Formspree or CRM webhook URL. Each lead is sent as JSON. A `lead_submit` event is also pushed to `dataLayer` for Google Ads and Meta conversion tracking.
+Both forms email each lead to `demandgenleads@verdexoventures.com` through [FormSubmit](https://formsubmit.co), set by `LEAD_EMAIL` near the top of the script in `lp/index.html`. The very first submission makes FormSubmit send an activation email to that inbox: click **Activate Form** once, or leads are not delivered. Each email has a clear subject, the lead's details, the time in IST and any `gclid`/`utm_*` values from the ad click. If sending fails, the visitor sees an error with the phone and WhatsApp links instead of a fake success message. A `lead_submit` event (or `lead_send_failed`) is also pushed to `dataLayer` for Google Ads and Meta conversion tracking.
 
 ## Deploy
 
@@ -66,3 +66,14 @@ The folder is static, so it deploys as-is to Vercel (or any static host):
 ```bash
 vercel deploy --prod
 ```
+
+## AI chat
+
+The chat button (bottom right) talks to `lp/server/lp-chat.php`, which is uploaded to the site root as `/lp-chat.php`. It forwards the conversation to Google Gemini's free tier and keeps the API key on the server, never in the page.
+
+1. Create a free key at https://aistudio.google.com/apikey.
+2. Copy `lp/server/chat-config.example.php` to `lp-chat-config.php` one folder **above** `public_html` (or to `public_html/lp-assets/chat-config.php`) and paste the key into it.
+
+With no key, a used-up free quota or any Google error, the chat switches to tap-to-answer FAQ buttons and an inline name/number card, so leads are still captured. Chat leads go to the same inbox as the forms, with the whole conversation attached. The server limits each visitor to 40 messages per 10 minutes. Note: on Gemini's free tier, Google may use conversations to improve its products.
+
+For local testing, put the key in `~/verdexo-landing-page-review/.gemini-key` (outside the repo); the local dev server reads it.
