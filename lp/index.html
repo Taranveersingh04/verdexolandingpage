@@ -436,18 +436,18 @@ footer img { height: 24px; width: auto; }
 @media (hover: hover) { .cbar a:hover b { opacity: 1; } }
 .cbar a:focus-visible b { opacity: 1; }
 /* top call strip: part of the fixed header, so the number stays on screen while scrolling */
-:root { --tb: 32px; }
+:root { --tb: 28px; }
 body { padding-top: var(--tb); }
 html { scroll-padding-top: calc(90px + var(--tb)); }
-.topbar { pointer-events: auto; display: flex; align-items: center; justify-content: center; gap: 14px; height: var(--tb); margin: -14px -24px 12px; padding: 0 16px; background: linear-gradient(90deg, #2c4660, #3d2f5f); color: rgba(255, 255, 255, .88); font-size: 13px; line-height: 1; }
+.topbar { pointer-events: auto; display: flex; align-items: center; justify-content: center; gap: 14px; height: var(--tb); margin: -14px -24px 12px; padding: 0 16px; background: linear-gradient(90deg, #2c4660, #3d2f5f); color: rgba(255, 255, 255, .88); font-size: 12.5px; line-height: 1; }
 .topbar p { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 .topbar p b { font-weight: 600; color: #fff; }
-.tb-call, .tb-wa { display: inline-flex; align-items: center; gap: 6px; height: 23px; padding: 0 10px; font-size: 12.5px; border-radius: 999px; font-weight: 600; white-space: nowrap; transition: transform .15s, background .2s; }
+.tb-call, .tb-wa { display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 9px; font-size: 12px; border-radius: 999px; font-weight: 600; white-space: nowrap; transition: transform .15s, background .2s; }
 .tb-call { color: #5c3d8a; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .18); }
 .tb-call:hover { transform: translateY(-1px); }
 .tb-wa { color: #fff; background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25); }
 .tb-wa:hover { background: rgba(255, 255, 255, .2); }
-.topbar svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.topbar svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .topbar .wa-ph { fill: currentColor; stroke: none; }
 .tb-call svg { animation: ring 2.6s ease-in-out .8s infinite; }
 .tb-call:focus-visible, .tb-wa:focus-visible { outline: 2.5px solid #fff; outline-offset: 2px; }
@@ -578,8 +578,8 @@ html { scroll-padding-top: calc(90px + var(--tb)); }
 }
 @media (max-width: 640px) {
   .cbar { right: 10px; gap: 12px; }
-  :root { --tb: 32px; }
-  .topbar { margin: -10px -16px 8px; padding: 0 12px; justify-content: space-between; gap: 8px; font-size: 12.5px; }
+  :root { --tb: 28px; }
+  .topbar { margin: -10px -16px 8px; padding: 0 12px; justify-content: space-between; gap: 8px; font-size: 12px; }
   .tb-l, .tb-wa { display: none; }
   .cbar a { width: 58px; height: 58px; }
   .cbar svg { width: 27px; height: 27px; }
