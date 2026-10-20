@@ -80,9 +80,20 @@ With no key, a used-up free quota or any Groq error, the chat switches to tap-to
 
 For local testing, put the key in `~/verdexo-landing-page-review/.gemini-key` (outside the repo); the local dev server reads it.
 
-## Google Ads tracking
+## Tracking (Google Tag Manager)
 
-The Google tag for Google Ads account `AW-18077017999` is in the page `<head>` (loaded async, so it doesn't slow the page). The page sends `generate_lead` when a form or chat lead is sent, and `contact` (method `phone` or `whatsapp`) when someone taps call or WhatsApp. Each one also counts as a **Google Ads conversion** once its label is filled into `ADS_LABELS` in `lp/index.html`. Get each label from Google Ads > Goals > Conversions > the conversion action > Tag setup: it's the part after the slash in `send_to: 'AW-18077017999/<label>'`. Every lead also stores the `gclid`, which the `/leads/` CSV export includes for offline conversion uploads. The privacy policy's "Cookies and tracking" section describes the tag.
+The page loads **Google Tag Manager** container `GTM-KXVP5ZFP` (snippet high in `<head>`, `noscript` right after `<body>`). All ad tracking, including the Google Ads account `AW-18077017999`, is set up **inside GTM**, not in the page, so there is exactly one Google Ads tag and nothing is counted twice. Don't add a separate Google tag to the page.
+
+The page announces these moments to `window.dataLayer`, once each:
+
+| Event | When | Extra fields |
+|---|---|---|
+| `lead_submit` | a form or chat lead is sent (not for bots caught by the hidden field) | `form` (`lead-form`, `quick-form` or `chat`), `lead_id` (unique; use as the Google Ads transaction ID) |
+| `call_click` | a call button is tapped | `where` |
+| `whatsapp_click` | a WhatsApp button is tapped | `where` |
+| `chat_open`, `chat_message`, `form_open`, `lead_send_failed` | for reporting only | |
+
+In GTM: add a Google tag (`AW-18077017999`) and a Conversion Linker on all pages, then one Google Ads Conversion Tracking tag per conversion action, each fired by a Custom Event trigger with the event name above. Every lead also stores the `gclid`, which the `/leads/` CSV export includes for offline conversion uploads. The privacy policy's "Cookies and tracking" section describes this. Update it if GTM starts loading other trackers, e.g. a Meta pixel.
 
 ## Leads
 
